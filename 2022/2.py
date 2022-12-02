@@ -1,6 +1,5 @@
 # Index sums
 win_sums = [2, 1, 3]
-draw_sums = [0, 2, 4]
 
 index_lookup = {
     "A": 0,
@@ -12,24 +11,24 @@ index_lookup = {
 }
 
 # Part 1
-with open("aoc2_input.txt") as f:
+with open("2_input.txt") as f:
     score = 0
     for line in f.readlines():
         res = line.split(" ")
         opp = index_lookup[res[0].rstrip()]
-        you = index_lookup[res[1].rstrip()]
+        me = index_lookup[res[1].rstrip()]
 
-        if you + opp == win_sums[you]:
+        if me + opp == win_sums[me]:
             score += 6
-        elif you + opp == draw_sums[you]:
+        elif me == opp:
             score += 3
 
-        score += you + 1
+        score += me + 1
 
     print(f"Part 1: {score}")
 
 # Part 2
-with open("aoc2_input.txt") as f:
+with open("2_input.txt") as f:
     score = 0
     for line in f.readlines():
         res = line.split(" ")
@@ -39,8 +38,7 @@ with open("aoc2_input.txt") as f:
             me = win_sums[opp] - opp
             score += me + 1
         if desired_result == "Y":
-            me = draw_sums[opp] - opp
-            score += me + 1 + 3
+            score += opp + 1 + 3
         if desired_result == "Z":
             for i in range(0, 3):
                 if i + opp == win_sums[i]:

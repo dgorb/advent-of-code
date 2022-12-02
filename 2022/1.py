@@ -1,4 +1,4 @@
-with open("aoc1_input.txt") as f:
+with open("1_input.txt") as f:
     elves = []
     i = 0
 
