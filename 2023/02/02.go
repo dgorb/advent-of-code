@@ -25,7 +25,7 @@ func main() {
 
 		colorCounts := map[string][]int{}
 
-		counts := regexp.MustCompile(`(\d+\sred|\d+\sgreen|\d+\sblue)`).FindAllString(l, -1)
+		counts := regexp.MustCompile(`\d+\s(red|green|blue)`).FindAllString(l, -1)
 		for _, c := range counts {
 			parts := strings.Split(c, " ")
 			count, err := strconv.Atoi(parts[0])
