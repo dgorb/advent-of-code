@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/dgorb/advent-of-code/2023/utils"
 )
@@ -44,10 +45,11 @@ func replaceStringsWithDigits(lines []string) []string {
 	}
 
 	replacedLines := []string{}
+
 	for _, line := range lines {
 		replacedLine := line
 		for k, v := range replacementTable {
-			replacedLine = regexp.MustCompile(k).ReplaceAllString(replacedLine, v)
+			replacedLine = strings.ReplaceAll(replacedLine, k, v)
 		}
 		replacedLines = append(replacedLines, replacedLine)
 	}
