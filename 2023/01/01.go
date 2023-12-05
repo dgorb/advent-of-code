@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"regexp"
 	"strconv"
-	"strings"
+
+	"github.com/dgorb/advent-of-code/2023/utils"
 )
 
 func main() {
-	lines := fileToStringSlice("input.txt")
+	lines := utils.FileToStringSlice("input.txt")
 
 	part1 := calculateValue(lines)
 	part2 := calculateValue(replaceStringsWithDigits(lines))
@@ -52,18 +52,4 @@ func replaceStringsWithDigits(lines []string) []string {
 		replacedLines = append(replacedLines, replacedLine)
 	}
 	return replacedLines
-}
-
-// TODO: Move to a utils package
-func fileToStringSlice(path string) []string {
-	content, err := os.ReadFile(path)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	lines := []string{}
-	lines = append(lines, strings.Split(string(content), "\n")...)
-
-	return lines
 }
