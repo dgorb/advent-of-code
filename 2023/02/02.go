@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"regexp"
-	"slices"
 	"strconv"
 	"strings"
 
@@ -41,11 +40,7 @@ func main() {
 		}
 
 		partOne += gameId
-
-		slices.Sort(colorCounts["red"])
-		slices.Sort(colorCounts["green"])
-		slices.Sort(colorCounts["blue"])
-		partTwo += (colorCounts["red"][len(colorCounts["red"])-1] * colorCounts["green"][len(colorCounts["green"])-1] * colorCounts["blue"][len(colorCounts["blue"])-1])
+		partTwo += (utils.MaxInt(colorCounts["red"]) * utils.MaxInt(colorCounts["green"]) * utils.MaxInt(colorCounts["blue"]))
 	}
 
 	fmt.Println("Part 1:", partOne)

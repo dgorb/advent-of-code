@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 )
 
@@ -17,4 +18,9 @@ func FileToStringSlice(path string) []string {
 	lines = append(lines, strings.Split(string(content), "\n")...)
 
 	return lines
+}
+
+func MaxInt(slice []int) int {
+	slices.Sort(slice)
+	return slice[len(slice)-1]
 }
