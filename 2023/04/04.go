@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"slices"
 	"strings"
+	"sync"
 
 	"github.com/dgorb/advent-of-code/2023/utils"
 )
@@ -12,7 +13,7 @@ func main() {
 	lines := utils.FileToStringSlice("input.txt")
 
 	partOne := 0
-	partTwo := 0
+	partTwo := len(lines)
 
 	for _, l := range lines {
 		score := 0
@@ -33,14 +34,25 @@ func main() {
 		partOne += score
 	}
 
-	partTwo += processSubset(lines)
-
 	fmt.Println("Part one:", partOne)
-	fmt.Println("Part two:", partTwo+len(lines))
+
+	score := 0
+	var wg sync.WaitGroup
+
+	wg.Add(1)
+	go processSubsets(lines, &score, &wg)
+
+	wg.Wait()
+	partTwo += score
+
+	fmt.Println("Part two:", partTwo)
+
 }
 
-func processSubset(lines []string) int {
-	score := 0
+var mutex sync.Mutex
+
+func processSubsets(lines []string, score *int, wg *sync.WaitGroup) {
+	defer wg.Done()
 
 	for i, l := range lines {
 		numMatches := 0
@@ -51,15 +63,17 @@ func processSubset(lines []string) int {
 
 		for _, n := range myNumbers {
 			if slices.Contains(cardNumbers, n) {
-				numMatches += 1
+				numMatches++
 			}
 		}
 
 		if numMatches > 0 {
-			score += numMatches
-			score += processSubset(lines[i+1 : i+1+numMatches])
+			mutex.Lock()
+			*score += numMatches
+			mutex.Unlock()
+
+			wg.Add(1)
+			go processSubsets(lines[i+1:i+1+numMatches], score, wg)
 		}
 	}
-
-	return score
 }
