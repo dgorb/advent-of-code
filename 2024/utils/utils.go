@@ -6,6 +6,15 @@ import (
 	"strings"
 )
 
+func FileToString(path string) string {
+	content, err := os.ReadFile(path)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	return strings.ReplaceAll(strings.ReplaceAll(string(content), "\r\n", ""), "\n", "")
+}
+
 func FileToStringSlice(path string) []string {
 	content, err := os.ReadFile(path)
 	if err != nil {
