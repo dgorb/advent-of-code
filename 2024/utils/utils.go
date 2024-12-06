@@ -34,3 +34,19 @@ func AbsInt(n int) int {
 	}
 	return n
 }
+
+func HasIntersection(slice1, slice2 []string) bool {
+	elements := make(map[string]struct{})
+
+	for _, v := range slice1 {
+		elements[v] = struct{}{}
+	}
+
+	for _, v := range slice2 {
+		if _, exists := elements[v]; exists {
+			return true
+		}
+	}
+
+	return false
+}
