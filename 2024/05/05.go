@@ -33,26 +33,48 @@ func main() {
 		}
 	}
 
-	findMid := func(sloice []string) string {
-		return sloice[(len(sloice) - 1) / 2]
+	findMid := func(s []string) string {
+		return s[(len(s) - 1) / 2]
 	}
 
 	partOne := 0
+	partTwo := 0
+
 	for _, update := range updates {
 		valid := true
+		invalidUpdate := append([]string(nil), update...)
+
 		for i, num := range update {
 			if rule, exists := rules[num]; exists && utils.HasIntersection(rule, update[:i]) {
 				valid = false
-				break
+
+				for a, invNum := range invalidUpdate {
+					if rulesForInvalidNum := rules[num]; a < i {
+						for _, rule := range rulesForInvalidNum {
+							if invNum == rule {
+								invalidUpdate[a], invalidUpdate[i] = invalidUpdate[i], invalidUpdate[a]
+								break
+							}
+						}
+					}
+				}
 			}
 		}
 
-		if valid {
-			if mid, err := strconv.Atoi(findMid(update)); err == nil {
-				partOne += mid
+		processUpdate := func(upd []string) int {
+			if mid, err := strconv.Atoi(findMid(upd)); err == nil {
+				return mid
 			}
+			return 0
+		}
+
+		if valid {
+			partOne += processUpdate(update)
+		} else {
+			partTwo += processUpdate(invalidUpdate)
 		}
 	}
 
 	fmt.Println("Part one:", partOne)
+	fmt.Println("Part two:", partTwo)
 }
